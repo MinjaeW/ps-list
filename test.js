@@ -86,6 +86,24 @@ test('custom binary', async t => {
 	}
 });
 
+test('process arguments retain their boundaries', async t => {
+	const arguments_ = ['./fixtures/sleep-forever.js', 'two words', '', '"quoted"', ''];
+	const child = childProcess.spawn(process.execPath, arguments_, {argv0: 'custom process name'});
+
+	try {
+		const list = await psList();
+		const record = list.find(entry => entry.pid === child.pid);
+		if (process.platform === 'linux') {
+			t.deepEqual(record.args, arguments_);
+		} else {
+			t.is(record.args, undefined);
+		}
+	} finally {
+		child.kill();
+		await once(child, 'exit');
+	}
+});
+
 test('path resolution', async t => {
 	if (isWindows) {
 		t.pass('Path resolution test skipped on Windows');

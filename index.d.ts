@@ -22,6 +22,13 @@ export type ProcessDescriptor = {
 	readonly cmd?: string;
 
 	/**
+	Arguments after argv[0], decoded as UTF-8. Empty arguments are preserved.
+
+	Available on Linux when the process exposes its argument list through procfs.
+	*/
+	readonly args?: string[];
+
+	/**
 	CPU usage as a percentage (0-100).
 
 	Not supported on Windows.

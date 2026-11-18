@@ -38,6 +38,8 @@ On macOS and Linux:
 
 The `cmd`, `cpu`, `memory`, `uid`, `path`, and `startTime` properties are not available on Windows.
 
+On Linux, `args` contains the arguments after `argv[0]` as a string array. Spaces and empty arguments are preserved. It is `undefined` if the process exits, its argument list cannot be read, or the platform is unsupported.
+
 #### options
 
 Type: `object`
